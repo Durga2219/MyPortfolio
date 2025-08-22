@@ -1,0 +1,457 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* CSS Variables for Theme Switching */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #fbf7f1; /* beige surface */
+  --bg-tertiary: #f5e9da; /* soft beige */
+  --text-primary: #1f1b16; /* deep brown text */
+  --text-secondary: #5c5347;
+  --text-tertiary: #7a6f62;
+  --accent-primary: #6B4F3A; /* Brown for headings, buttons */
+  --accent-secondary: #F5E9DA; /* Beige for hovers, subtle borders */
+  --pastel-purple: #6B4F3A; /* repurposed as brown */
+  --light-steel-blue: #F5E9DA; /* repurposed as beige */
+  --border-primary: #e8dccb;
+  --border-secondary: #d9c5b2;
+  --shadow-primary: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-secondary: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #12100e; /* near-black with warm tint */
+  --bg-secondary: #181614;
+  --bg-tertiary: #201d1a;
+  --text-primary: #f7f3ed;
+  --text-secondary: #e7dccf;
+  --text-tertiary: #cbbfae;
+  --accent-primary: #D9C5B2; /* lighter brown/beige accents pop on dark */
+  --accent-secondary: #6B4F3A;
+  --border-primary: #2b2723;
+  --border-secondary: #3a342f;
+  --shadow-primary: 0 1px 3px 0 rgba(0, 0, 0, 0.35), 0 1px 2px 0 rgba(0, 0, 0, 0.25);
+  --shadow-secondary: 0 4px 6px -1px rgba(0, 0, 0, 0.35), 0 2px 4px -1px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.35), 0 4px 6px -2px rgba(0,0,0,0.25);
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Remove white background to show image properly */
+  background: transparent;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
+  line-height: 1.6;
+}
+
+/* Keep dark mode as solid dark for contrast */
+[data-theme="dark"] body {
+  background-image: none;
+  background-color: var(--bg-primary);
+}
+
+/* Smooth Theme Transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Background pan and glow overlay animations */
+@keyframes bgPan {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+@keyframes glowPulseWarm {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.45; }
+}
+
+.animate-bg-pan-slow {
+  animation: bgPan 30s linear infinite alternate;
+}
+
+.attract-overlay {
+  background:
+    radial-gradient(600px 600px at 20% 20%, rgba(245, 233, 218, 0.18), transparent 60%),
+    radial-gradient(800px 800px at 80% 30%, rgba(107, 79, 58, 0.18), transparent 60%);
+  mix-blend-mode: soft-light;
+  animation: glowPulseWarm 6s ease-in-out infinite;
+}
+
+/* Animation Utility Classes */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-slide-left {
+  animation: slideLeft 0.8s ease-out forwards;
+}
+
+.animate-slide-right {
+  animation: slideRight 0.8s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Animation Delays */
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-600 {
+  animation-delay: 600ms;
+}
+
+.animation-delay-700 {
+  animation-delay: 700ms;
+}
+
+.animation-delay-800 {
+  animation-delay: 800ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2000ms;
+}
+
+/* Performance Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float,
+  .animate-pulse-glow {
+    animation: none;
+  }
+}
+
+/* Focus Styles for Accessibility */
+*:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Skip Link for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--accent-primary);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Container Utilities */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+/* Typography over background image for readability (bright) */
+.on-image h1,
+.on-image h2,
+.on-image h3 {
+  color: #FFFFFF !important; /* Bright white headings */
+}
+
+.on-image,
+.on-image p,
+.on-image li,
+.on-image span,
+.on-image small,
+.on-image label,
+.on-image input::placeholder,
+.on-image textarea::placeholder {
+  color: #EAEAEA !important; /* Soft bright gray for body text */
+}
+
+.on-image a {
+  color: #FFD700 !important; /* Gold accent */
+}
+.on-image a:hover {
+  color: #FFE37A !important; /* Lighter gold on hover */
+}
+
+.on-image button,
+.on-image .btn {
+  background-color: #FFD700 !important;
+  color: #1b1b1b !important;
+  border-color: #E6C200 !important;
+}
+.on-image button:hover,
+.on-image .btn:hover {
+  background-color: #E6C200 !important;
+  color: #1b1b1b !important;
+}
+
+/* Ensure brightness in both themes (override any light-mode rules) */
+[data-theme="light"] .on-image h1,
+[data-theme="light"] .on-image h2,
+[data-theme="light"] .on-image h3,
+[data-theme="dark"] .on-image h1,
+[data-theme="dark"] .on-image h2,
+[data-theme="dark"] .on-image h3 {
+  color: #FFFFFF !important;
+}
+
+[data-theme="light"] .on-image,
+[data-theme="light"] .on-image p,
+[data-theme="light"] .on-image li,
+[data-theme="light"] .on-image span,
+[data-theme="light"] .on-image small,
+[data-theme="light"] .on-image label,
+[data-theme="light"] .on-image input::placeholder,
+[data-theme="light"] .on-image textarea::placeholder,
+[data-theme="dark"] .on-image,
+[data-theme="dark"] .on-image p,
+[data-theme="dark"] .on-image li,
+[data-theme="dark"] .on-image span,
+[data-theme="dark"] .on-image small,
+[data-theme="dark"] .on-image label,
+[data-theme="dark"] .on-image input::placeholder,
+[data-theme="dark"] .on-image textarea::placeholder {
+  color: #EAEAEA !important;
+}
+
+/* Global dark typography override */
+.force-dark h1,
+.force-dark h2,
+.force-dark h3 {
+  color: #1a1a1a !important;
+}
+
+.force-dark,
+.force-dark p,
+.force-dark li,
+.force-dark span,
+.force-dark small,
+.force-dark label,
+.force-dark input,
+.force-dark textarea,
+.force-dark input::placeholder,
+.force-dark textarea::placeholder {
+  color: #2d2d2d !important;
+}
+
+.force-dark a { color: #1f3a8a !important; }
+.force-dark a:hover { color: #1d4ed8 !important; }
+
+/* Readable typography utilities */
+.text-on-dark h1,
+.text-on-dark h2,
+.text-on-dark h3 { color: #FFFFFF !important; font-weight: 700; }
+.text-on-dark,
+.text-on-dark p,
+.text-on-dark li,
+.text-on-dark span,
+.text-on-dark small,
+.text-on-dark label { color: #E0E0E0 !important; }
+
+.text-on-light h1,
+.text-on-light h2,
+.text-on-light h3 { color: #000000 !important; font-weight: 700; }
+.text-on-light,
+.text-on-light p,
+.text-on-light li,
+.text-on-light span,
+.text-on-light small,
+.text-on-light label { color: #222222 !important; }
